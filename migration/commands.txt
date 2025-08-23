@@ -1,0 +1,7 @@
+For install latest migrate package run bellow command :
+-----  go install -tags 'postgres' github.com/golang-migrate/migrate/v4/cmd/migrate@latest
+
+
+
+For create new migration run bellow command : 
+----- migrate create -ext -sql -dir database/migrations -seq create_users_table
