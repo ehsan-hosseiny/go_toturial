@@ -1,0 +1,13 @@
+For download postgres image run bellow command :
+
+----- docker pull postgres:14 
+
+For create container with database configuration run bellow command :
+
+----- docker run --name tutorial-go -e POSTGRES_USER=admin -e POSTGRES_PASSWORD=123456 -e POSTGRES_DB=test -p 5454:5432 -d postgres:14
+
+For check container created can run bellow command : 
+
+----- docker ps
+
+
