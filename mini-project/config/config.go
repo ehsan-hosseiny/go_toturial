@@ -8,6 +8,7 @@ import (
 
 type Config struct {
 	AppName  string
+	AppPort  string
 	Database database
 }
 
@@ -29,6 +30,7 @@ func LoadConfig() error {
 		return err
 	}
 
+	cfg.AppPort = os.Getenv("APP_PORT")
 	cfg.AppName = os.Getenv("APP_NAME")
 	cfg.Database.PostgresDb = os.Getenv("POSTGRES_DB")
 	cfg.Database.PostgresHost = os.Getenv("POSTGRES_HOST")

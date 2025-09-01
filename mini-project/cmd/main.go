@@ -5,6 +5,7 @@ import (
 	"log"
 	"mini/config"
 	"mini/database"
+	"mini/server"
 )
 
 func main() {
@@ -14,13 +15,18 @@ func main() {
 	}
 
 	conn, err := database.Connect(config.AppConfig)
+	defer database.Close(conn)
 
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	err, version := database.ExampleQuery(conn)
-
+	_, version := database.ExampleQuery(conn)
 	fmt.Println(version)
+
+	err = server.StartServer(config.AppConfig, conn)
+	if err != nil {
+		log.Fatal(err)
+	}
 
 }
