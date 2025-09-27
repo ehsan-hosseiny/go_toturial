@@ -1,0 +1,1 @@
+ docker run --name rabbitmq -p 5673:5672 -p 15672:15673 -e RABBITMQ_DEFAULT_USER=admin -e RABBITMQ_DEFAULT_PASS=123456 -d  rabbitmq:3-management
