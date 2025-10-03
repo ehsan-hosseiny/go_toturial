@@ -2,52 +2,36 @@ package main
 
 import (
 	"fmt"
-
-	amqp "github.com/rabbitmq/amqp091-go"
+	"log"
+	"rabbitmq/config"
+	"rabbitmq/rabbitmq"
 )
 
 func main() {
 
-	conn, err := amqp.Dial("amqp://admin:123456@localhost:5673")
+	err := config.LoadConfig()
 	if err != nil {
-		fmt.Println(err)
-		return
+		log.Fatal(err)
 	}
-	defer conn.Close()
 
-	ch, err := conn.Channel()
+	r, err := rabbitmq.Connect(config.AppConfig)
 	if err != nil {
-		fmt.Println(err)
-		return
+		log.Fatal(err)
 	}
-
-	defer ch.Close()
-
-	queue, err := ch.QueueDeclare("test", false, false, false, false, nil)
+	q, err := r.DeclareQueue("test")
 	if err != nil {
-		fmt.Println(err)
-		return
+		log.Fatal(err)
 	}
-
-	for i := 0; i < 100; i++ {
-		err = ch.Publish("", queue.Name, false, false, amqp.Publishing{
-
-			ContentType: "text/plain",
-			Body:        []byte(fmt.Sprintf("msg-%d", i)),
-		})
-		if err != nil {
-			fmt.Println(err)
-			return
-		}
-
-	}
-
-	msgs, err := ch.Consume(queue.Name, "", true, false, false, false, nil)
+	err = r.PublishMessage(q.Name, "hello from rabbitmq")
 	if err != nil {
-		fmt.Println(err)
-		return
+		log.Fatal(err)
 	}
-	for d := range msgs {
+
+	messages, err := r.Consumer(q.Name)
+	if err != nil {
+		log.Fatal(err)
+	}
+	for d := range messages {
 		fmt.Println(string(d.Body))
 	}
 
