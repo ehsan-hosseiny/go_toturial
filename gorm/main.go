@@ -32,6 +32,18 @@ func main() {
 
 	}
 
+	var users []models.User
+	err = db.Model(&models.User{}).Where("id",1).Find(&users).Error
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	for _, v := range users {
+		fmt.Println("id : ",v.ID,"first name : ", v.FirstName, "last name : ", v.LastName)
+	}
+
+	// fmt.Println(users)
+
 	// db.Exec("CREATE TYPE gender AS ENUM('Male','Female')")
 	// err = db.AutoMigrate(&models.User{})
 	// if err != nil {
@@ -39,18 +51,18 @@ func main() {
 
 	// }
 
-	email := "ehsanhossin@gmail.com"
-	err = db.Create(&models.User{
-		FirstName: "ehsan",
-		LastName:  "hosseiny",
-		Mobile:    "09122438871",
-		Email:     &email,
-		Age:       36,
-		Gender:    "Male",
-	}).Error
+	// email := "ehsanhossin@gmail.com"
+	// err = db.Create(&models.User{
+	// 	FirstName: "ehsan",
+	// 	LastName:  "hosseiny",
+	// 	Mobile:    "09122438871",
+	// 	Email:     &email,
+	// 	Age:       36,
+	// 	Gender:    "Male",
+	// }).Error
 
-	if err != nil {
-		log.Fatal(err)
-	}
+	// if err != nil {
+	// 	log.Fatal(err)
+	// }
 
 }
