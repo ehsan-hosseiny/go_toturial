@@ -9,11 +9,10 @@ import (
 var wg sync.WaitGroup
 
 func main() {
+	wg.Add(3)
 	go f1()
 	go f2()
 	go f3()
-
-	wg.Add(3)
 	fmt.Println(runtime.NumGoroutine())
 	wg.Wait()
 
@@ -21,21 +20,25 @@ func main() {
 
 func f1() {
 	defer wg.Done()
-	for i := 0; i <= 5; i++ {
-		fmt.Println("for-f1", i)
+	
+	for i := 0; i < 5; i++ {
+		fmt.Println("for-a", i)
 	}
 }
 
 func f2() {
 	defer wg.Done()
-	for i := 0; i <= 5; i++ {
-		fmt.Println("for-f2", i)
+	
+	for i := 0; i < 5; i++ {
+		fmt.Println("for-b", i)
 	}
+
 }
 
 func f3() {
 	defer wg.Done()
-	for i := 0; i <= 5; i++ {
-		fmt.Println("for-f3", i)
+	
+	for i := 0; i < 5; i++ {
+		fmt.Println("for-c", i)
 	}
 }
